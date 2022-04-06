@@ -1,8 +1,14 @@
+import 'package:findhouseapp/models/tips_model.dart';
 import 'package:findhouseapp/theme.dart';
 import "package:flutter/material.dart";
 
 class TipsCard extends StatelessWidget {
-  const TipsCard({ Key? key }) : super(key: key);
+  Tips data;
+
+  TipsCard({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +21,7 @@ class TipsCard extends StatelessWidget {
         children: [
           ClipRRect(
             child: Image.asset(
-              "assets/images/cg.png",
+              data.image,
               width: 80,
               height: 80,
             ),
@@ -28,7 +34,7 @@ class TipsCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "City Guidelines",
+                data.name,
                 style: regulerTextStyle.copyWith(
                   fontSize: 18
                 )
@@ -37,7 +43,7 @@ class TipsCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "Updated 20 Apr",
+                "Updated "+data.date,
                 style: greyTextStyle.copyWith(
                   fontWeight: FontWeight.w300,
                   fontSize: 14,

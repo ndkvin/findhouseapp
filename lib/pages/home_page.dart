@@ -1,6 +1,8 @@
 import 'package:findhouseapp/models/city_model.dart';
 import 'package:findhouseapp/models/place_model.dart';
+import 'package:findhouseapp/models/tips_model.dart';
 import 'package:findhouseapp/theme.dart';
+import 'package:findhouseapp/widgets/button_navbar_material.dart';
 import 'package:findhouseapp/widgets/city_card.dart';
 import 'package:findhouseapp/widgets/place_card.dart';
 import 'package:findhouseapp/widgets/tips_card.dart';
@@ -131,12 +133,55 @@ class HomePage extends StatelessWidget {
               ),
               Column(
                 children: [
-                  TipsCard(),
-                  TipsCard()
+                  TipsCard(
+                    data: Tips(
+                      date: "20 Apr",
+                      image: "assets/images/cg.png",
+                      name: "City Guidelines"
+                    )
+                  ),
+                  TipsCard(
+                    data: Tips(
+                      date: "11 Dec",
+                      image: "assets/images/jf.png",
+                      name: "Jakarta Fairship"
+                    )
+                  ),
                 ],
-              )
+              ),
+              
             ],
           ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        height: 65,
+        width: MediaQuery.of(context).size.width - (2*24),
+        margin: const EdgeInsets.symmetric(
+          horizontal: 24
+        ),
+        decoration: BoxDecoration(
+          color: Color(0XFFF6F7F8),
+          borderRadius: BorderRadius.circular(23)
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ButtonNavbarItem(
+              isSelected: true,
+              image: "assets/icons/homegray.png"
+            ),
+            ButtonNavbarItem(
+              image: "assets/icons/mail.png"
+            ),
+            ButtonNavbarItem(
+              image: "assets/icons/Icon_card_solid.png"
+            ),
+            ButtonNavbarItem(
+              image: "assets/icons/like.png"
+            ),
+          ],
         ),
       ),
     );

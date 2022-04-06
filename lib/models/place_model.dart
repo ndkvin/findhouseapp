@@ -1,9 +1,9 @@
 class PlaceModel {
   String name;
   String image;
-  double rating;
+  int rating;
   String location;
-  double price;
+  int price;
   
   PlaceModel({
     required this.name,
