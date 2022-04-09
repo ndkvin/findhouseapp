@@ -16,7 +16,7 @@ class PlaceCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
-          builder: (context) => DetailPage()
+          builder: (context) => DetailPage(data: data,)
           ),
         );
       },
@@ -34,8 +34,11 @@ class PlaceCard extends StatelessWidget {
                 width: 130,
                 child: Stack(
                   children: [
-                    Image.asset(
-                      data.image,
+                    Image.network(
+                      data.imageUrl,
+                      width: 130,
+                      height: 110,
+                      fit: BoxFit.cover,
                     ),
                     Align(
                       alignment: Alignment.topRight,
@@ -109,7 +112,7 @@ class PlaceCard extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    data.location,
+                    data.address,
                     style: regulerTextStyle.copyWith(
                       fontSize: 14,
                       color: greyColor,

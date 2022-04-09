@@ -1,18 +1,24 @@
 import 'package:findhouseapp/models/city_model.dart';
 import 'package:findhouseapp/models/place_model.dart';
 import 'package:findhouseapp/models/tips_model.dart';
+import 'package:findhouseapp/providers/space_provider.dart';
 import 'package:findhouseapp/theme.dart';
 import 'package:findhouseapp/widgets/button_navbar_material.dart';
 import 'package:findhouseapp/widgets/city_card.dart';
 import 'package:findhouseapp/widgets/place_card.dart';
 import 'package:findhouseapp/widgets/tips_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    var spaceProvider = Provider.of<SpaceProvider>(context);
+
+  
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -90,36 +96,20 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Column(
-                children: [
-                  PlaceCard(
-                    data: PlaceModel(
-                      image: "assets/images/place1.png",
-                      location: "Bandung, Germany",
-                      name: "Kuretakeso Hott" ,
-                      price: 52,
-                      rating: 4,
-                    ),
-                  ),
-                  PlaceCard(
-                    data: PlaceModel(
-                      image: "assets/images/place2.png",
-                      location: "Seattle, Bogor",
-                      name: "Roemah Nenek" ,
-                      price: 11,
-                      rating: 5,
-                    ),
-                  ),
-                  PlaceCard(
-                    data: PlaceModel(
-                      image: "assets/images/place3.png",
-                      location: "Jakarta, Indonesia",
-                      name: "Darrling How" ,
-                      price: 20,
-                      rating: 3,
-                    ),
-                  ),
-                ],
+              FutureBuilder(
+                future: spaceProvider.getRecomendedSpace(),
+                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    List<PlaceModel> datas = snapshot.data;
+                    return Column(
+                      children: datas.map((data) => PlaceCard(data: data)).toList()
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
               Text(
                 "Tips & Guidance",

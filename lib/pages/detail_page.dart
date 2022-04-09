@@ -1,4 +1,5 @@
 import 'package:findhouseapp/models/facility_mdoel.dart';
+import 'package:findhouseapp/models/place_model.dart';
 import 'package:findhouseapp/pages/404_page.dart';
 import 'package:findhouseapp/theme.dart';
 import 'package:findhouseapp/widgets/facilitiy_item.dart';
@@ -7,11 +8,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatelessWidget {
 
-  int rating = 4;
+  PlaceModel data;
 
-  DetailPage({ Key? key }) : super(key: key);
+  DetailPage({
+    Key? key,
+    required this.data
+  }) : super(key: key);
 
- 
   @override
   Widget build(BuildContext context) {
     
@@ -32,13 +35,12 @@ class DetailPage extends StatelessWidget {
         bottom: false,
         child: Stack(
           children: [
-            Image.asset(
-              "assets/images/city3.png",
+            Image.network(
+              data.imageUrl,
               height: 350,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
             ),
-            
             ListView(
               children: [
                 const SizedBox(
@@ -69,14 +71,14 @@ class DetailPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Kuretakeso Hott",
+                                  data.name,
                                   style: regulerTextStyle.copyWith(
                                     fontSize: 22,
                                   ),
                                 ),
                                 Text.rich(
                                   TextSpan(
-                                    text: "\$52",
+                                    text: "\$${data.price}",
                                     style: regulerTextStyle.copyWith(
                                       color: purpleColor,
                                       fontSize: 16
@@ -101,7 +103,7 @@ class DetailPage extends StatelessWidget {
                                   ),
                                   child: Icon(
                                     Icons.star,
-                                    color: index < rating ? Color(0XFFFF9376) : Color(0XFF989BA1),
+                                    color: index < data.rating ? Color(0XFFFF9376) : Color(0XFF989BA1),
                                     size: 20,
                                   ),
                                 );
@@ -128,20 +130,20 @@ class DetailPage extends StatelessWidget {
                             FacilityItem(
                               data: Facility(
                                 image: "assets/images/bar.png",
-                                number: 2,
+                                number: data.numberOfKitchens,
                                 name: "kitchen",
                               ),
                             ),
                             FacilityItem(
                               data: Facility(
                                 image: "assets/images/badroom-icon.png",
-                                number: 3,
+                                number: data.numberOfBedrooms,
                                 name: "bedroom",
                               ),
                             ),FacilityItem(
                               data: Facility(
                                 image: "assets/images/lemari-icon.png",
-                                number: 3,
+                                number: data.numberOfBedrooms,
                                 name: "almari",
                               ),
                             ),
@@ -163,56 +165,25 @@ class DetailPage extends StatelessWidget {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: 88,
-                          child: ListView(
+                          child: ListView.builder(
+                            itemCount: data.photos.length,
                             scrollDirection: Axis.horizontal,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.asset(
-                                  "assets/images/city3.png",
-                                  height: 88,
-                                  width: 110,
-                                  fit: BoxFit.cover,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: const EdgeInsets.only(
+                                  right: 5
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.asset(
-                                  "assets/images/place1.png",
-                                  height: 88,
-                                  width: 110,
-                                  fit: BoxFit.cover,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.network(
+                                    data.photos[index],
+                                    height: 88,
+                                    width: 110,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.asset(
-                                  "assets/images/place2.png",
-                                  height: 88,
-                                  width: 110,
-                                  fit: BoxFit.cover,
-                                ),
-                                
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.asset(
-                                  "assets/images/place3.png",
-                                  height: 88,
-                                  width: 110,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ],
+                              );
+                            },
                           ),
                         ),
                         const SizedBox(
@@ -234,13 +205,13 @@ class DetailPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Jln. Kappan Sukses No. 20",
+                                  data.address,
                                   style: greyTextStyle.copyWith(
                                     fontSize: 14
                                   ),
                                 ),
                                 Text(
-                                  "Palembang",
+                                  data.city,
                                   style: greyTextStyle.copyWith(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w300
@@ -249,8 +220,8 @@ class DetailPage extends StatelessWidget {
                               ],
                             ),
                             InkWell(
-                              onTap: () {
-                                _launchUrl("AS");
+                              onTap: () {              
+                                _launchUrl(data.mapUrl);
                               },
                               child: Container(
                                 height: 40,
@@ -273,7 +244,7 @@ class DetailPage extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            _launchUrl("tel:+62123456789");
+                            _launchUrl("tel:+${data.phone}");
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width,
