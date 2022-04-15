@@ -31,8 +31,7 @@ class PlaceModel {
   required this.numberOfCupboards,
   });
 
-  PlaceModel.fromJson(json) {
-    print(json);
+  PlaceModel.fromJson(json) {;
     id = json['id'];
     name = json['name'];
     city = json['city'];
